@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sharing/src/blocs/home_bloc.dart';
 import 'package:flutter_sharing/src/blocs/home_provider.dart';
+import 'package:flutter_sharing/src/model/FeedModel.dart';
 import 'package:flutter_sharing/src/model/FeedResponseModel.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,20 +16,30 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Container(
         child: StreamBuilder(
-            stream: bloc.feeds,
-            builder: (context, AsyncSnapshot<FeedResponseModel> snapshot) {
-              if (!snapshot.hasData || snapshot.data == null) {
-                return Center(
-                  child: CircularProgressIndicator(),
+          stream: bloc.feeds,
+          builder: (context, AsyncSnapshot<FeedResponseModel> snapshot) {
+            if (!snapshot.hasData || snapshot.data == null) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return ListView.builder(
+              itemCount: snapshot.data.data.length,
+              itemBuilder: (context, index) {
+                return buildWidget(
+                  snapshot.data.data[index],
                 );
-              }
-              return ListView.builder(
-                  itemCount: snapshot.data.data.length,
-                  itemBuilder: (context, index) {
-                    return Text(snapshot.data.data[index].feedTitle);
-                  });
-            }),
+              },
+            );
+          },
+        ),
       ),
+    );
+  }
+
+  Widget buildWidget(FeedModel item) {
+    return Container(
+      child: Text('${item.feedTitle}'),
     );
   }
 }

@@ -8,7 +8,7 @@ class ApiProvider {
 
   Future<FeedResponseModel> getFeed() async {
     final response =
-        await client.get('${_root}5dda99763100005000605e69?mocky-delay=3000ms');
+        await client.get('${_root}5dda99763100005000605e69?mocky-delay=0ms');
     final parsedJson = json.decode(response.body);
     return FeedResponseModel.fromJson(parsedJson);
   }
